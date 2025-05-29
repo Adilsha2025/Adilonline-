@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <title>PVC I-Card</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eae6f9;
+            padding: 20px;
+        }
+        .card {
+            width: 650px;
+            height: 250px;
+            border-radius: 12px;
+            border: 3px solid #6a1b9a;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            display: flex;
+            overflow: hidden;
+        }
+        .left {
+            width: 30%;
+            background: #f3e5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .left img {
+            width: 100px;
+            height: 120px;
+            border: 2px solid #6a1b9a;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .right {
+            width: 70%;
+            padding: 10px 20px;
+            color: #4a148c;
+        }
+        .header {
+            background: #6a1b9a;
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 2px solid #4a148c;
+        }
+        .info {
+            margin-top: 10px;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .signature {
+            margin-top: 15px;
+            text-align: right;
+            font-size: 14px;
+            color: #6a1b9a;
+        }
+        .upload-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        input, textarea {
+            padding: 6px;
+            margin: 6px;
+            width: 90%;
+        }
+        input[type="file"] {
+            width: auto;
+        }
+        button {
+            margin-top: 10px;
+            background: #6a1b9a;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="upload-section">
+    <h2>PVC I-Card Generator</h2>
+    <input type="text" id="schoolName" placeholder="શાળાનું / સંસ્થાનું નામ"><br>
+    <input type="text" id="name" placeholder="નામ"><br>
+    <input type="text" id="father" placeholder="પિતાનું નામ"><br>
+    <input type="text" id="surname" placeholder="અટક"><br>
+    <input type="text" id="mobile" placeholder="મોબાઇલ નંબર"><br>
+    <input type="email" id="email" placeholder="ઈમેલ"><br>
+    <textarea id="govcard" placeholder="સરકારી કાર્ડ માહિતી"></textarea><br>
+    ફોટો અપલોડ કરો: <input type="file" id="photo" accept="image/*"><br>
+    <button onclick="generateCard()">I-Card બનાવો</button>
+</div>
+
+<br><br>
+
+<div class="card" id="card" style="display:none;">
+    <div class="left">
+        <img id="photoPreview" alt="ફોટો">
+    </div>
+    <div class="right">
+        <div class="header" id="schoolHeader">સંસ્થાનું નામ</div>
+        <div class="info" id="infoArea"></div>
+        <div class="signature">સહી</div>
+    </div>
+</div>
+
+<script>
+function generateCard() {
+    document.getElementById("schoolHeader").innerText = document.getElementById("schoolName").value;
+
+    const name = document.getElementById("name").value;
+    const father = document.getElementById("father").value;
+    const surname = document.getElementById("surname").value;
+    const mobile = document.getElementById("mobile").value;
+    const email = document.getElementById("email").value;
+    const govcard = document.getElementById("govcard").value;
+
+    const infoHTML = `
+        <strong>નામ:</strong> ${name} ${surname}<br>
+        <strong>પિતાનું નામ:</strong> ${father}<br>
+        <strong>મોબાઇલ:</strong> ${mobile}<br>
+        <strong>ઈમેલ:</strong> ${email}<br>
+        <strong>સરકારી માહિતી:</strong> ${govcard}
+    `;
+    document.getElementById("infoArea").innerHTML = infoHTML;
+
+    const photoFile = document.getElementById("photo").files[0];
+    if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("photoPreview").src = e.target.result;
+        };
+        reader.readAsDataURL(photoFile);
+    }
+
+    document.getElementById("card").style.display = "flex";
+}
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="downloadCard()">Download I-Card</button>
+</div>
+
+<script>
+function downloadCard() {
+    const card = document.getElementById("card");
+    html2canvas(card).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "my_icard.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+</script>
+</body>
+
+</html>

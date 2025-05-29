@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8" />
+    <title>રજીસ્ટ્રેશન</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #7b2ff7, #f107a3);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            width: 320px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 15px;
+            margin: 10px 0 20px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #f107a3;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #7b2ff7;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+        <h2>રજીસ્ટ્રેશન ફોર્મ</h2>
+        નામ:<br>
+        <input type="text" name="name" required><br>
+        ઈમેઈલ:<br>
+        <input type="email" name="email" required><br>
+        પાસવર્ડ:<br>
+        <input type="password" name="password" required><br>
+        <button type="submit">OTP મોકલો</button>
+    </form>
+</body>
+</html>

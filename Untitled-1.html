@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8" />
+<title>Register & Login ફોર્મ</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #7b2ff7, #f107a3);
+        color: #fff;
+        margin: 0; padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        background: rgba(255,255,255,0.15);
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(31,38,135,0.37);
+        backdrop-filter: blur(10px);
+        width: 360px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    h2 {
+        margin-bottom: 20px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+    }
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+        width: 100%;
+        padding: 10px 15px;
+        margin: 10px 0 10px 0;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #f107a3;
+        border: none;
+        padding: 12px 0;
+        width: 100%;
+        border-radius: 8px;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+    button:hover {
+        background-color: #7b2ff7;
+    }
+    .show-password {
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+        margin: 5px 0 15px 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .show-password input {
+        margin-right: 8px;
+    }
+    .form-section {
+        display: none;
+    }
+    .form-section.active {
+        display: block;
+    }
+    .switch-buttons {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    .switch-buttons button {
+        width: auto;
+        padding: 8px 15px;
+        font-size: 14px;
+        font-weight: 600;
+        background: transparent;
+        border: 2px solid #fff;
+        color: #fff;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .switch-buttons button.active,
+    .switch-buttons button:hover {
+        background-color: #fff;
+        color: #7b2ff7;
+        border-color: #7b2ff7;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="switch-buttons">
+        <button id="btn-register" class="active" onclick="showSection('register')">રજીસ્ટર</button>
+        <button id="btn-login" onclick="showSection('login')">લૉગિન</button>
+    </div>
+
+    <!-- Register Section -->
+    <form id="register" class="form-section active" onsubmit="event.preventDefault(); sendOTP();">
+        <h2>રજીસ્ટ્રેશન</h2>
+        નામ:<br>
+        <input type="text" name="name" id="reg-name" required><br>
+        ઈમેઈલ:<br>
+        <input type="email" name="email" id="reg-email" required><br>
+        પાસવર્ડ:<br>
+        <input type="password" name="password" id="reg-password" required><br>
+
+        <label class="show-password">
+            <input type="checkbox" onclick="togglePassword('reg-password')"> પાસવર્ડ બતાવો
+        </label>
+
+        <button type="submit">OTP મોકલો</button>
+    </form>
+
+    <!-- OTP Verification Section -->
+    <form id="otp-verify" class="form-section" onsubmit="event.preventDefault(); verifyOTP();">
+        <h2>OTP ચકાસો</h2>
+        ઈમેઈલ:<br>
+        <input type="email" id="otp-email" disabled><br>
+        OTP:<br>
+        <input type="number" id="otp-code" required><br>
+
+        <button type="submit">OTP ચકાસો</button>
+        <button type="button" style="margin-top:10px; background:#7b2ff7;" onclick="resendOTP()">OTP ફરી મોકલો</button>
+    </form>
+
+    <!-- Login Section -->
+    <form id="login" class="form-section" onsubmit="event.preventDefault(); loginUser();">
+        <h2>લૉગિન</h2>
+        ઈમેઈલ:<br>
+        <input type="email" name="email" id="login-email" required><br>
+        પાસવર્ડ:<br>
+        <input type="password" name="password" id="login-password" required><br>
+
+        <label class="show-password">
+            <input type="checkbox" onclick="togglePassword('login-password')"> પાસવર્ડ બતાવો
+        </label>
+
+        <button type="submit">લૉગિન</button>
+    </form>
+</div>
+
+<script>
+    // Switch between forms
+    function showSection(section) {
+        const sections = ['register', 'otp-verify', 'login'];
+        sections.forEach(s => {
+            document.getElementById(s).classList.remove('active');
+            document.getElementById('btn-' + s).classList?.remove('active');
+        });
+        document.getElementById(section).classList.add('active');
+        const btn = document.getElementById('btn-' + section);
+        if(btn) btn.classList.add('active');
+    }
+
+    // Toggle Password visibility
+    function togglePassword(id) {
+        const passField = document.getElementById(id);
+        if (passField.type === "password") {
+            passField.type = "text";
+        } else {
+            passField.type = "password";
+        }
+    }
+
+    // Dummy OTP logic
+    let currentOTP = null;
+    let currentEmail = null;
+
+    function generateOTP() {
+        return Math.floor(100000 + Math.random() * 900000);
+    }
+
+    // Simulate sending OTP
+    function sendOTP() {
+        const name = document.getElementById('reg-name').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value;
+
+        if(!name || !email || !password){
+            alert('મહેરબાની કરીને બધા ફીલ્ડ ભરો');
+            return;
+        }
+
+        currentOTP = generateOTP();
+        currentEmail = email;
+        alert(`OTP મોકલાયો છે: ${currentOTP} (અહીં ફકત ડેમો માટે)`);
+
+        // OTP Email સેટ કરવો
+        document.getElementById('otp-email').value = currentEmail;
+
+        // Register form છુપાવો અને OTP વેરીફાઇ ફોર્મ બતાવો
+        showSection('otp-verify');
+    }
+
+    // Verify OTP
+    function verifyOTP() {
+        const enteredOTP = document.getElementById('otp-code').value.trim();
+
+        if (enteredOTP === '') {
+            alert('OTP નાખો');
+            return;
+        }
+
+        if (enteredOTP === currentOTP.toString()) {
+            alert('રજીસ્ટ્રેશન સફળતાપૂર્વક પૂર્ણ થયું!');
+            // અહીં તમે રજીસ્ટ્રેશન ડેટા સાચવી શકો છો (બેકએન્ડ સાથે)
+            showSection('login');
+        } else {
+            alert('ખોટો OTP, ફરી પ્રયાસ કરો');
+        }
+    }
+
+    function resendOTP() {
+        if(currentEmail){
+            currentOTP = generateOTP();
+            alert(`OTP ફરી મોકલાયો છે: ${currentOTP} (ડેમો માટે)`);
+        }
+    }
+
+    // Dummy Login function
+    function loginUser() {
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+
+        if (!email || !password) {
+            alert('મહેરબાની કરીને ઈમેઈલ અને પાસવર્ડ દાખલ કરો');
+            return;
+        }
+
+        // અહીં તમે વાસ્તવિક Login ચકાસણી કરી શકો છો (બેકએન્ડ સાથે)
+        alert(`લૉગિન સફળ: ${email}`);
+    }
+</script>
+
+</body>
+</html>

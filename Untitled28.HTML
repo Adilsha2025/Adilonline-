@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adil Online Zone - સરકારી ભરતી અને અપડેટ</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f2f2ff; padding: 20px; }
+  header { background: #6a1b9a; color: white; padding: 20px; text-align: center; }
+  nav { background: #4a148c; padding: 10px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+  nav a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; }
+  nav a:hover { background: #7e57c2; }
+  section { margin-top: 20px; }
+  .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  .btn, .whatsapp-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .btn { background: #6a1b9a; }
+  .whatsapp-btn { background: #25D366; margin-left: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Adil Online Zone</h1>
+  <p>સરકારી ભરતી, કોલ લેટર, સ્કોલરશીપ અને ફોર્મ અપડેટ</p>
+</header>
+
+<nav>
+  <a href="#jobs">ભરતી</a>
+  <a href="#callletters">કોલ લેટર</a>
+  <a href="#scholarships">સ્કોલરશીપ</a>
+  <a href="#forms">ફોર્મ શરુ</a>
+</nav>
+
+<section id="jobs">
+  <h2>સરકારી ભરતી</h2>
+  <div id="jobs-container"></div>
+</section>
+
+<section id="callletters">
+  <h2>કોલ લેટર</h2>
+  <div id="callletters-container"></div>
+</section>
+
+<section id="scholarships">
+  <h2>વિદ્યાર્થી સ્કોલરશીપ</h2>
+  <div id="scholarships-container"></div>
+</section>
+
+<section id="forms">
+  <h2>ફોર્મ શરુ થયા છે</h2>
+  <div id="forms-container"></div>
+</section>
+
+<script>
+const dummyData = {
+  jobs: [
+    { title: "GPSC ભરતી 2025", detail: "ક્લાર્ક, ઓફિસર - છેલ્લી તારીખ: 15 જૂન 2025", link: "https://gpsc.gujarat.gov.in" },
+    { title: "GSSSB ભરતી 2025", detail: "મૂળભૂત સેવા કર્મચારીઓ - છેલ્લી તારીખ: 30 જૂન 2025", link: "https://gsssb.gujarat.gov.in" }
+  ],
+  callletters: [
+    { title: "GSSSB Head Clerk Call Letter", detail: "Download link activated: 5 જૂન 2025", link: "https://ojas.gujarat.gov.in" }
+  ],
+  scholarships: [
+    { title: "Digital Gujarat Scholarship 2025", detail: "છેલ્લી તારીખ: 31 જુલાઈ 2025", link: "https://www.digitalgujarat.gov.in" }
+  ],
+  forms: [
+    { title: "SSC CHSL 2025 ફોર્મ", detail: "ફોર્મ ચાલુ તારીખ: 25 મે 2025", link: "https://ssc.nic.in" }
+  ]
+};
+
+function createCard(item) {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const title = document.createElement('h3');
+  title.textContent = item.title;
+  card.appendChild(title);
+
+  const detail = document.createElement('p');
+  detail.textContent = item.detail;
+  card.appendChild(detail);
+
+  const applyBtn = document.createElement('a');
+  applyBtn.href = item.link;
+  applyBtn.target = '_blank';
+  applyBtn.className = 'btn';
+  applyBtn.textContent = 'વધુ જાણો / અરજી કરો';
+  card.appendChild(applyBtn);
+
+  const whatsappBtn = document.createElement('a');
+  const message = `${item.title} - ${item.detail} \nLink: ${item.link}`;
+  whatsappBtn.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  whatsappBtn.target = '_blank';
+  whatsappBtn.className = 'whatsapp-btn';
+  whatsappBtn.textContent = 'WhatsApp મોકલો';
+  card.appendChild(whatsappBtn);
+
+  return card;
+}
+
+function renderSection(containerId, items) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  items.forEach(item => {
+    container.appendChild(createCard(item));
+  });
+}
+
+function loadData() {
+  renderSection('jobs-container', dummyData.jobs);
+  renderSection('callletters-container', dummyData.callletters);
+  renderSection('scholarships-container', dummyData.scholarships);
+  renderSection('forms-container', dummyData.forms);
+}
+
+loadData();
+setInterval(loadData, 600000);
+</script>
+
+</body>
+</html>

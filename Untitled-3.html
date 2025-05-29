@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8" />
+<title>Adil Online Zone Login</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #2c1a12; /* Coffee brown */
+    overflow: hidden;
+  }
+  .slider {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+  }
+  .slider img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+  .slider img.active {
+    opacity: 1;
+  }
+
+  .login-container {
+    position: relative;
+    width: 350px;
+    margin: 60px auto;
+    padding: 30px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    color: #fff;
+    text-align: center;
+  }
+
+  /* Adil Online Zone Logo on top */
+  .logo {
+    width: 150px;
+    margin: 0 auto 20px;
+  }
+
+  .login-container h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+  .login-container input {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 10px 0 10px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  .show-password {
+    color: #ddd;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    margin: 5px 0 15px 0;
+    display: flex;
+    align-items: center;
+  }
+  .show-password input {
+    margin-right: 8px;
+  }
+  .login-container button {
+    background-color: #7b1fa2; /* purple */
+    border: none;
+    padding: 12px 0;
+    width: 100%;
+    border-radius: 8px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .login-container button:hover {
+    background-color: #4a0072;
+  }
+</style>
+</head>
+<body>
+
+<!-- Background Image Slider -->
+<div class="slider" id="slider">
+  <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.tiktok.com%2Fdiscover%2Fguys-named-adil&psig=AOvVaw2FEyv07pnI44a4ICnzlV2K&ust=1748338470476000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCOCZzr_qwI0DFQAAAAAdAAAAABAL" class="active" alt="Adil Online Image 1" />
+  <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.tiktok.com%2Fdiscover%2Fguys-named-adil&psig=AOvVaw2FEyv07pnI44a4ICnzlV2K&ust=1748338470476000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCOCZzr_qwI0DFQAAAAAdAAAAABAL" alt="Adil Online Image 2" />
+  <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.tiktok.com%2Fdiscover%2Fguys-named-adil&psig=AOvVaw2FEyv07pnI44a4ICnzlV2K&ust=1748338470476000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCOCZzr_qwI0DFQAAAAAdAAAAABAL" alt="Adil Online Image 3" />
+</div>
+
+<!-- Login Form -->
+<div class="login-container">
+  <img src="https://i.ibb.co/WgSPqKH/adil-logo.png" alt="Adil Online Zone Logo" class="logo" />
+  <h2>અદિલ ઓનલાઇન ઝોનમાં લૉગિન કરો</h2>
+  <input type="email" placeholder="ઈમેઈલ લખો" id="email" required />
+  <input type="password" placeholder="પાસવર્ડ" id="password" required />
+  <label class="show-password">
+    <input type="checkbox" onclick="togglePassword()"> પાસવર્ડ બતાવો
+  </label>
+  <button onclick="alert('લૉગિન સફળ!')">લૉગિન</button>
+</div>
+
+<script>
+  const sliderImages = document.querySelectorAll('.slider img');
+  let index = 0;
+  const interval = 4000;
+
+  function changeSlide() {
+    sliderImages[index].classList.remove('active');
+    index = (index + 1) % sliderImages.length;
+    sliderImages[index].classList.add('active');
+  }
+
+  setInterval(changeSlide, interval);
+
+  function togglePassword() {
+    const pwd = document.getElementById('password');
+    if(pwd.type === 'password'){
+      pwd.type = 'text';
+    } else {
+      pwd.type = 'password';
+    }
+  }
+</script>
+
+</body>
+</html>
